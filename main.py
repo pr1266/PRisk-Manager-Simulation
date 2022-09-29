@@ -33,6 +33,9 @@ print(f'overall loss after 10000 loss trades : {(deposit-init_deposit) / deposit
 #! actualy i tried 1000 000 but my RAM was not enough to store all the data so i changed it to 100 000 for my self.
 #! you can change it easily
 
+
+#! threshold for reward counter : 4
+#! threshold for loss counter : 4
 action = []
 for i in range(600):
     action.append(1)
@@ -90,6 +93,8 @@ plt.scatter(y, min_)
 plt.show()
 
 #! and here is another state, that we increase risk per trade after 16 rewards instead of 4 :
+#! threshold for reward counter : 16
+#! threshold for loss counter : 4
 init_array = []
 arr = []
 action = np.array(action)
