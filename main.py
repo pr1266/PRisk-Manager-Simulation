@@ -1,19 +1,32 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import os
+
+os.system('cls')
+
+#! first of all we declare an array of risks, and we start our trades with 1% per trade as usual
 risks = [0.005, 0.0075, 0.01, 0.0125, 0.015, 0.0175, 0.02]
+
+#! most of people think that the worst state in trading is that all trades hit stop loss in a row
+#! but it is proved that if all your trades hits stop loss and you decrease your risk per trade to half after 4 loss in a row,
+#! then if number of trades that hits stop loss goes to infinite, your overal loss goes to under 10%
+#! here is the simulation:
+
+test_risk = 0.01
+init_deposit = 100
+deposit = init_deposit
+
+counter = 0
+for i in range(100000):
+    counter += 1
+    if counter == 4:
+        counter = 0
+        test_risk /= 2
+    init_deposit -= init_deposit * test_risk
+print(f'initial deposit after 10000 loss trades : {init_deposit}')
+print(f'overall loss after 10000 loss trades : {(deposit-init_deposit) / deposit}')
+
 action = []
-# ind = 1
-# count = 0
-
-
-# for i in range(1000):
-#     count += 1
-#     action.append(ind)
-    
-#     if count == 4:        
-#         count = 0
-        # ind = 0 if ind == 1 else 1
-
 for i in range(600):
     action.append(1)
 
@@ -63,20 +76,7 @@ for H in range(100000):
     init_array.append(to_save)
     arr.append(init)
 
-
-
-print(arr)
-print(min(arr))
-# y = [i for i in range(len(arr))]
-
-print('')
-print('')
-print('')
-print('')
-print('')
-
 min_ = [min(x) for x in init_array]
 y = [i for i in range(len(min_))]
-print(min(min_))
 plt.scatter(y, min_)
 plt.show()
