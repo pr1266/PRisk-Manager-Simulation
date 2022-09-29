@@ -4,6 +4,13 @@ import os
 
 os.system('cls')
 
+#! Main idea of this algorithm inspired of TCP/IP Congestion control
+#! When there is a certain number of packet loss in connection, sender reduces window size to half
+#! and when there is a consecutive acks, sender increases the window size to 2x
+#! We proposed an algorithm similar to congestion control to avoid major losses in out trades
+#! And it is proved that in this case, if all trades hit stop loss, it doesn't matter because the overall is limited
+#! and there is no margin call threat for our balance
+
 #! first of all we declare an array of risks, and we start our trades with 1% per trade as usual
 risks = [0.005, 0.0075, 0.01, 0.0125, 0.015, 0.0175, 0.02]
 
