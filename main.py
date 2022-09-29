@@ -29,6 +29,9 @@ print(f'overall loss after 10000 loss trades : {(deposit-init_deposit) / deposit
 #! but now, we are going to test another state, what happens if you gain some profit and increase
 #! your risk per trade? for example, gain 4 rewards and then loss 4 trades?
 #! we create a search space for trades using R/R = 1 ratio and 60% accuracy
+#! to cover almost all conditions, we shuffle our search space array '1000' times
+#! actualy i tried 1000 000 but my RAM was not enough to store all the data so i changed it to 100 000 for my self.
+#! you can change it easily
 
 action = []
 for i in range(600):
