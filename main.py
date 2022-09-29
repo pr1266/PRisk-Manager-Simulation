@@ -26,6 +26,10 @@ for i in range(100000):
 print(f'initial deposit after 10000 loss trades : {init_deposit}')
 print(f'overall loss after 10000 loss trades : {(deposit-init_deposit) / deposit}')
 
+#! but now, we are going to test another state, what happens if you gain some profit and increase
+#! your risk per trade? for example, gain 4 rewards and then loss 4 trades?
+#! we create a search space for trades using R/R = 1 ratio and 60% accuracy
+
 action = []
 for i in range(600):
     action.append(1)
@@ -33,12 +37,60 @@ for i in range(600):
 for i in range(400):
     action.append(0)
 
-
 init_array = []
 arr = []
 action = np.array(action)
-for H in range(100000):
-    print(H)
+for H in range(1000):
+    np.random.shuffle(action)
+    init = 100
+    risk = 0.01
+    risk_ind = 2
+    pos_count = 0
+    neg_count = 0
+    to_save = []
+    for i in action:
+        if i == 1:
+            pos_count += 1
+        if i == 0:
+            neg_count += 1
+
+        if neg_count == 4:
+            neg_count = 0
+            pos_count = 0
+            risk_ind -= 1
+            if risk_ind < 0:
+                risk_ind = 0
+            risk = risks[risk_ind] 
+
+        if pos_count == 4:
+            neg_count = 0
+            pos_count = 0
+            risk_ind += 1
+            if risk_ind > len(risks)-1:            
+                risk_ind = len(risks)-1
+            risk = risks[risk_ind]
+
+        if i == 1:
+            init += init * risk
+        if i == 0:
+            init -= init * risk
+        to_save.append(init)
+    init_array.append(to_save)
+    arr.append(init)
+
+min_ = [min(x) for x in init_array]
+y = [i for i in range(len(min_))]
+
+print('lowest level of balance after 1000 trades for 1000 times shuffled search space : ')
+print(min_)
+plt.scatter(y, min_)
+plt.show()
+
+#! and here is another state, that we increase risk per trade after 16 rewards instead of 4 :
+init_array = []
+arr = []
+action = np.array(action)
+for H in range(1000):
     np.random.shuffle(action)
     init = 100
     risk = 0.01
@@ -78,5 +130,8 @@ for H in range(100000):
 
 min_ = [min(x) for x in init_array]
 y = [i for i in range(len(min_))]
+print('')
+print('lowest level of balance after 1000 trades for 1000 times shuffled search space : ')
+print(min_)
 plt.scatter(y, min_)
 plt.show()
